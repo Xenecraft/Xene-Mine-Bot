@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const { Client, RichEmbed } = require('discord.js');
-const rp = require('request-promise');
 // Mandatory File Settings
 const settings = require('./app-settings.json');
 const APP_CONSTANTS = require('./constants.js');
@@ -81,7 +80,9 @@ client.on('message', message => {
 
     else if (command === commands.intro.text) {
         let msgDescription = `
-        Hi ${message.author}, I am a bot to help with administrating a Minecraft server! Try typing \`${settings.prefix}\` in combinations with other commands to see my other functionality! For example, typing \`${settings.prefix} help\` to see my list of commands.`;
+        Hi ${message.author}, I am a bot to help with administrating a Minecraft server! Try typing \`${settings.prefix}\` in combinations with other commands to see my other functionality! For example, typing \`${settings.prefix} help\` to see my list of commands.
+
+        Please note that I am only allowed to run in the \`${settings.allowed_channel}\` channel so send your commands there!`;
         createRichEmbedMessage(message, `Intro`, msgDescription);
     }
 
@@ -101,7 +102,7 @@ client.on('message', message => {
 
     //Help Command
     else if (command === commands.help.text) {
-        createRichEmbedMessage(message, 'Help Command List', 'blah blah \n blah blah\n blah blah');
+        createRichEmbedMessage(message, 'Help Command List', utils.createFormattedHelpMessage(commands));
     } 
 
     else if (command === commands.debug.text) {
@@ -118,8 +119,10 @@ client.on('message', message => {
         message.reply(`Hello there ${message.author}!` + command);
 });
 
-//TODO: setInterval that will notify if item server is down
-
+setInterval(()=>{
+    setBotServerStatus();
+    console.log('checking server status...')
+}, APP_CONSTANTS.REFRESH_INTERVAL);
 
 //Other Reusable Functions here
 function setBotServerStatus() {
