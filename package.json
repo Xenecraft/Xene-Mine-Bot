@@ -1,0 +1,20 @@
+{
+  "name": "xene-mine-bot",
+  "version": "0.1.0",
+  "description": "A Discord Bot to give more information on a Minecraft Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Eric Gonzalo",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/uws": "^10.149.0"
+  },
+  "devDependencies": {
+    "discord.js": "^11.5.1",
+    "nodemon": "^1.19.2"
+  }
+}

@@ -1,3 +1,7 @@
+#Repository Stuff
+app-settings.json
+constants.js
+
 # Logs
 logs
 *.log
