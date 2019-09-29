@@ -52,9 +52,15 @@ var getServerVersion = function() {
 var getWhoIsOnline = function() {
     return callAPI().then((response) => {
         let players = response.players;
+        let playerList = players.list;
+        if(playerList != undefined)
+        	playerList = utils.linkArrayWithFormatting(playerList);
+        else
+        	playerList = "Nobody online \:cry:";
+        
         return {
             numbers: `${players.online}/${players.max}`,
-            players: players.list.join('\n'),
+            players: playerList,
         };
     });
 };

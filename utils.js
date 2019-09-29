@@ -1,3 +1,13 @@
+const createFormattedHelpMessage = function(commandsObject){
+	let formattedMessage = ``;
+	for (let property in commandsObject){
+		if (Object.prototype.hasOwnProperty.call(commandsObject, property)) {
+        	formattedMessage = formattedMessage + `⛏ \`${commandsObject[property].text}\` - ${commandsObject[property].description} \n`; 
+    	}
+	}
+	return formattedMessage;
+}
+
 const determineServerStatusEmoji = function(serverBoolean) {
     if (serverBoolean)
         return `\:green_heart:`;
@@ -10,7 +20,7 @@ const linkArrayWithFormatting = function(array) {
     if (array.length === 1) {
         formattedMessage = `- ${array[0]}`;
     } else {
-        for (let idx = 0; idx < array.length - 1; idx++) {
+        for (let idx = 0; idx < array.length; idx++) {
             formattedMessage = formattedMessage + `- ${array[idx]} \n`;
         }
     }
@@ -18,6 +28,7 @@ const linkArrayWithFormatting = function(array) {
 }
 
 module.exports = {
-    determineServerStatusEmoji: determineServerStatusEmoji,
-    linkArrayWithFormatting: linkArrayWithFormatting,
+	createFormattedHelpMessage,
+    determineServerStatusEmoji,
+    linkArrayWithFormatting,
 }

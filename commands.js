@@ -38,7 +38,7 @@ const APP_COMMANDS = {
     status: {
         text: `server status`,
         type: `embed`,
-        description: `gives a Ggeneral server status`,
+        description: `gives a General Server status`,
     },
     version: {
     	text: `version`,

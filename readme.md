@@ -1,27 +1,42 @@
 # Xene-Mine-bot - A Discord-Minecraft Bot
-An easy interface to check on a Minecraft Server. Currently used for server status and get other miscellaneous information related to the server.
+An easy interface to check on a Minecraft Server. Currently used for server status and get other miscellaneous information related to the server. Uses two APIs in existing combination so that they are not spammed too hard.
 
-## Current Commands
-
-`help`
+## Available Commands
+Refer to the `commands.js` file for more indept descriptions!
+- `address`
+- `debug`
+- `help`
+- `intro`
+- `ping`
+- `plugins`
+- `main site`
+- `server status`
+- `version`
+- `who is online`
 
 ### Version Changelog  
-#### 0.2.0 - 9/20/19 
-- Formatting
+#### 1.0.0 - 9/29/19 
+- Lots of commands to use now!
+- Decent readme
+- Routine cronjob check for the server status in Bot Status
+
+#### 0.2.0 - 9/29/19 
+- Formatting of stuff
 - More helpful commands in place
+- get server status
+- get who is online
+- Create API Wrapper
+- Create API Backup values
 
 #### 0.1.0 - 9/28/19  
 - Created the bot! Yay!
 - xb command isolation with `app-settings.json` file
 
 ### ToDos For Later:
-- get server status
-- get who is online
-- routine cronjob check for the server status
+
 - notify if the server is offline
 - more documentation for help command and a description for values
-- Create API Wrapper
-- Create API Backup values
+- set a user timeout to prevent message spamming
 
 ### How to use the Bot for Yourself
 [Directions here.]
