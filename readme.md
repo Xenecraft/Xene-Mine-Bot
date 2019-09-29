@@ -6,10 +6,13 @@ An easy interface to check on a Minecraft Server. Currently used for server stat
 `help`
 
 ### Version Changelog  
-#### 0.1.0 - 9/29/19  
+#### 0.2.0 - 9/20/19 
+- Formatting
+- More helpful commands in place
+
+#### 0.1.0 - 9/28/19  
 - Created the bot! Yay!
 - xb command isolation with `app-settings.json` file
--
 
 ### ToDos For Later:
 - get server status
@@ -18,6 +21,7 @@ An easy interface to check on a Minecraft Server. Currently used for server stat
 - notify if the server is offline
 - more documentation for help command and a description for values
 - Create API Wrapper
+- Create API Backup values
 
 ### How to use the Bot for Yourself
 [Directions here.]

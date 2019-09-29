@@ -11,10 +11,12 @@
   "author": "Eric Gonzalo",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/uws": "^10.149.0"
+    "@discordjs/uws": "^10.149.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "discord.js": "^11.5.1",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "request-promise": "^4.2.4"
   }
 }
