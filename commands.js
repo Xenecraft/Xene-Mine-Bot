@@ -36,7 +36,7 @@ const APP_COMMANDS = {
         description: `gives you the main URL`,	
     },
     status: {
-        text: `server status`,
+        text: `status`,
         type: `embed`,
         description: `gives a General Server status`,
     },
@@ -46,7 +46,7 @@ const APP_COMMANDS = {
     	description: `gives the version of Minecraft used`,
     },
     whois: {
-    	text: `who is online`,
+    	text: `users`,
     	type: `embed`,
     	description: `gives a list of who is online`,
     }

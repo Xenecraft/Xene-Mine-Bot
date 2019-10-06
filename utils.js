@@ -1,11 +1,13 @@
-const createFormattedHelpMessage = function(commandsObject){
-	let formattedMessage = ``;
-	for (let property in commandsObject){
-		if (Object.prototype.hasOwnProperty.call(commandsObject, property)) {
-        	formattedMessage = formattedMessage + `⛏ \`${commandsObject[property].text}\` - ${commandsObject[property].description} \n`; 
-    	}
-	}
-	return formattedMessage;
+const moment = require('moment');
+
+const createFormattedHelpMessage = function(commandsObject) {
+    let formattedMessage = ``;
+    for (let property in commandsObject) {
+        if (Object.prototype.hasOwnProperty.call(commandsObject, property)) {
+            formattedMessage = formattedMessage + `⛏ \`${commandsObject[property].text}\` - ${commandsObject[property].description} \n`;
+        }
+    }
+    return formattedMessage;
 }
 
 const determineServerStatusEmoji = function(serverBoolean) {
@@ -27,8 +29,14 @@ const linkArrayWithFormatting = function(array) {
     return formattedMessage;
 }
 
+const logMessageToConsole = function(message) {
+    let timeNow = moment().format('YYYY.MM.DD - HH:mm:ss');
+    console.log(`[${timeNow}] ${message}`);
+}
+
 module.exports = {
-	createFormattedHelpMessage,
+    createFormattedHelpMessage,
     determineServerStatusEmoji,
     linkArrayWithFormatting,
+    logMessageToConsole,
 }

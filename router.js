@@ -3,7 +3,7 @@ const rp = require('request-promise');
 const APP_CONSTANTS = require('./constants.js');
 const utils = require('./utils.js');
 
-var getServerIP = function() {
+const getServerIP = function() {
     return callAPI().then((response) => {
         return {
             host: response.hostname,
@@ -12,15 +12,15 @@ var getServerIP = function() {
     });
 };
 
-var getServerPlugins = function() {
+const getServerPlugins = function() {
     return callAPI().then((response) => {
-    	let pluginList = response.plugins.names;
-    	let formattedPluginList = utils.linkArrayWithFormatting(pluginList);
+        let pluginList = response.plugins.names;
+        let formattedPluginList = utils.linkArrayWithFormatting(pluginList);
         return formattedPluginList;
     });
 };
 
-var getServerStatus = function() {
+const getServerStatus = function() {
     return callAPI().then((response) => {
         return {
             online: response.online,
@@ -30,17 +30,17 @@ var getServerStatus = function() {
     });
 };
 
-var getServerStatusBackup = function(){
-	return callAPIBackup().then((response)=>{
-		return {
-			online: response.online,
-			playersMax: response.players.max,
-			playersOn: response.players.now,
-		}
-	});
+const getServerStatusBackup = function() {
+    return callAPIBackup().then((response) => {
+        return {
+            online: response.online,
+            playersMax: response.players.max,
+            playersOn: response.players.now,
+        }
+    });
 };
 
-var getServerVersion = function() {
+const getServerVersion = function() {
     return callAPI().then((response) => {
         return {
             version: response.version,
@@ -49,15 +49,15 @@ var getServerVersion = function() {
     });
 };
 
-var getWhoIsOnline = function() {
+const getWhoIsOnline = function() {
     return callAPI().then((response) => {
         let players = response.players;
         let playerList = players.list;
-        if(playerList != undefined)
-        	playerList = utils.linkArrayWithFormatting(playerList);
+        if (playerList !== undefined)
+            playerList = utils.linkArrayWithFormatting(playerList);
         else
-        	playerList = "Nobody online \:cry:";
-        
+            playerList = "Nobody is Online \:cry:";
+
         return {
             numbers: `${players.online}/${players.max}`,
             players: playerList,
@@ -65,17 +65,16 @@ var getWhoIsOnline = function() {
     });
 };
 
-// Separate values here
+// Call the API to reuse in methods above
 const apiOneOptions = {
     uri: APP_CONSTANTS.API_URL + APP_CONSTANTS.SERVER_URL,
     headers: {
         'User-Agent': 'Request-Promise'
     },
     json: true // Automatically parses the JSON string in the response
-};
+}
 
-// Call the API to reuse in methods above
-var callAPI = function() {
+const callAPI = function() {
     return rp(apiOneOptions)
         .catch(function(err) {
             // API call failed...
@@ -89,15 +88,15 @@ const apiTwoOptions = {
         'User-Agent': 'Request-Promise'
     },
     json: true // Automatically parses the JSON string in the response
-};
-
-var callAPIBackup = function() {
-	return rp(apiTwoOptions)
-	    .catch(function(err) {
-	        // API call failed...
-	        console.error(`[ERROR] ${err}`);
-	    });
 }
+
+const callAPIBackup = function() {
+    return rp(apiTwoOptions)
+        .catch(function(err) {
+            // API call failed...
+            console.error(`[ERROR] ${err}`);
+        });
+};
 
 module.exports = {
     getServerIP,
@@ -106,4 +105,4 @@ module.exports = {
     getServerStatusBackup,
     getServerVersion,
     getWhoIsOnline,
-}
+};

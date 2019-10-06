@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const { Client, RichEmbed } = require('discord.js');
+const { Client, RichEmbed, Channel } = require('discord.js');
 // Mandatory File Settings
 const settings = require('./app-settings.json');
 const APP_CONSTANTS = require('./constants.js');
@@ -8,10 +8,19 @@ const APP_CONSTANTS = require('./constants.js');
 const commands = require('./commands.js');
 const router = require('./router.js');
 const utils = require('./utils.js');
+const logMessageToConsole = utils.logMessageToConsole;
+
+//Global Variable for Server Status
+let isServerOnline = true;
 
 client.on('ready', () => {
-    console.log(`Logging in as ${client.user.tag}...`);
-    setBotServerStatus();
+    logMessageToConsole(`Logging in as ${client.user.tag}...`);
+    determineBotServerStatus();
+    routinelyCheckServerStatus();
+    // setTimeout(()=>{
+    //     const channel = client.channels.get('name', settings.allowed_channel);
+    //     console.log(channel);
+    // }, 1000)
 });
 
 client.on('message', message => {
@@ -21,11 +30,15 @@ client.on('message', message => {
 
     // Also good practice to ignore any message that does not start with our prefix, 
     // which is set in the configuration file.
-    // console.log(message.isMentioned(client.user));
+    // logMessageToConsole(message.isMentioned(client.user));
     if (message.content.indexOf(settings.prefix) !== 0) return;
 
+    //Process the Command text
     const args = message.content.slice(settings.prefix.length).trim();
     const command = args.toLowerCase();
+    let commandLogMessage = `${message.author}: said '${command}'`;
+    logMessageToConsole(commandLogMessage);
+
 
     //Ping Command
     if (command === commands.ping.text) {
@@ -48,7 +61,8 @@ client.on('message', message => {
     else if (command === commands.address.text) {
         router.getServerIP().then((serverValue) => {
             let msgDescription =
-                `Try connecting to either address below:
+                `Try connecting to either Server Addresses below when entering the Server Info:
+                
             - ${serverValue.host}
             - ${serverValue.ip}`;
 
@@ -64,12 +78,13 @@ client.on('message', message => {
             **List:**\n ${players.players}`;
 
             createRichEmbedMessage(message, `Users`, msgDescription);
+            setBotStatus(`${players.numbers}`, undefined);
         });
     }
 
     //What Version
     else if (command === commands.version.text) {
-        router.getServerVersion().then((versionInfo)=>{
+        router.getServerVersion().then((versionInfo) => {
             let msgDescription =
                 `**Minecraft Version:** ${versionInfo.version}
             **Minecraft Type:** ${versionInfo.software}`;
@@ -78,6 +93,7 @@ client.on('message', message => {
         });
     }
 
+    //Bot Intro 
     else if (command === commands.intro.text) {
         let msgDescription = `
         Hi ${message.author}, I am a bot to help with administrating a Minecraft server! Try typing \`${settings.prefix}\` in combinations with other commands to see my other functionality! For example, typing \`${settings.prefix} help\` to see my list of commands.
@@ -93,7 +109,7 @@ client.on('message', message => {
 
     //Plugins Used
     else if (command === commands.plugin.text) {
-        router.getServerPlugins().then((pluginList)=>{
+        router.getServerPlugins().then((pluginList) => {
             let msgDescription = `**Below are a list of plugins currently used on the server:**
             ${pluginList}`;
             createRichEmbedMessage(message, `Plugins`, msgDescription);
@@ -102,16 +118,19 @@ client.on('message', message => {
 
     //Help Command
     else if (command === commands.help.text) {
-        createRichEmbedMessage(message, 'Help Command List', utils.createFormattedHelpMessage(commands));
-    } 
+        let msgDescription = `**Prefix your messages with \`${settings.prefix}\` and then add any one of the commands below:**\n
+        ${utils.createFormattedHelpMessage(commands)}
 
+        _i.e. xmb who is online_`;
+        createRichEmbedMessage(message, 'Help Command List', msgDescription);
+    }
+
+    //Github Checker
     else if (command === commands.debug.text) {
         let msgDescription = `**Refer to the Github URL for additional information or any suggestions:** 
         ${APP_CONSTANTS.GITHUB_URL}`;
         createRichEmbedMessage(message, 'Additional Help', msgDescription);
-    } 
-
-    else {
+    } else {
         message.reply(`I'm not quite sure I understand that command, you may have made a typo or that command has not been created yet!`);
     }
 
@@ -119,22 +138,53 @@ client.on('message', message => {
         message.reply(`Hello there ${message.author}!` + command);
 });
 
-setInterval(()=>{
-    setBotServerStatus();
-    console.log('checking server status...')
-}, APP_CONSTANTS.REFRESH_INTERVAL);
+//Check routinely on Server Status based on Refresh Interval
+const routinelyCheckServerStatus = function() {
+    setInterval(() => {
+        determineBotServerStatus();
+        logMessageToConsole('Determining server status...')
+    }, APP_CONSTANTS.REFRESH_INTERVAL);
+};
 
-//Other Reusable Functions here
-function setBotServerStatus() {
+//Other Reusable Functions Below:
+const determineBotServerStatus = function() {
     router.getServerStatusBackup().then((serverInfo) => {
-        if (serverInfo.online)
-            client.user.setActivity(`Xenecraft: ${serverInfo.playersOn} / ${serverInfo.playersMax}`, { type: 'WATCHING' });
-        else
-            client.user.setActivity(`Xenecraft: Offline`, { type: 'WATCHING' });
+        const checkStatus  = serverInfo.online;
+        if (serverInfo.online){
+            setBotStatus(`${serverInfo.playersOn} / ${serverInfo.playersMax}`, undefined);
+            // if(isServerOnline !== checkStatus){
+            //     determineServerStatus(checkStatus);
+            //     isServerOnline = true;
+            // }
+        }
+        else{
+            setBotStatus(`Offline`, undefined);
+            // if(isServerOnline !== checkStatus){
+            //     determineServerStatus(checkStatus);
+            //     isServerOnline = false;
+            // }
+        }
     });
-}
+};
 
-function createRichEmbedMessage(msg, msgTitle, msgDescription) {
+const determineServerStatus = function(onlineStatusMessageToSend) {
+    const channel = client.channels.get('name', settings.allowed_channel);
+    if(onlineStatusMessageToSend){
+        const onlineMessage = `Server is back up. All lights are green.`;    
+        channel.send(onlineMessage); 
+    }else{
+        const offlineMessage = `Server is offline. Either a restart or a maintenance?`;
+        channel.send(offlineMessage)
+    }
+    
+    
+};
+
+const setBotStatus = function(activityBase, activityType = `WATCHING`) {
+    client.user.setActivity(`Xenecraft: ${activityBase}`, { type: activityType });
+};
+
+const createRichEmbedMessage = function(msg, msgTitle, msgDescription) {
     const embed = new RichEmbed()
         // Set the title of the field
         .setTitle(`**${APP_CONSTANTS.SERVER_NAME} - ${msgTitle}**`)
@@ -143,8 +193,9 @@ function createRichEmbedMessage(msg, msgTitle, msgDescription) {
         // Set the main content of the embed
         .setDescription(msgDescription);
     // Send the embed to the same channel as the message
+    //try and see if can await
     setTimeout(() => { msg.channel.send(embed) }, 250);
-}
+};
 
 //Gotta have this at the very end.
 client.login(settings.bot_token);

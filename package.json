@@ -1,6 +1,6 @@
 {
   "name": "xene-mine-bot",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "A Discord Bot to give more information on a Minecraft Server",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "discord.js": "^11.5.1",
+    "moment": "^2.24.0",
     "nodemon": "^1.19.2",
     "request-promise": "^4.2.4"
   }
