@@ -80,4 +80,4 @@ Refer to the `commands.js` file for more indept descriptions!
 - [Syfarp](https://twitter.com/Syfaro) for creating MCApi.us
 - Discord people
 - People at Writebots for giving a relatively straightforward way to host a Bot in [this article](https://www.writebots.com/discord-bot-hosting/)
-- This [Gist}(https://gist.github.com/eslachance/3349734a98d30011bb202f47342601d3) for some simple best practices!
+- This [Gist](https://gist.github.com/eslachance/3349734a98d30011bb202f47342601d3) for some simple best practices!

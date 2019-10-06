@@ -120,7 +120,6 @@ client.on('message', message => {
     else if (command === commands.help.text) {
         let msgDescription = `**Prefix your messages with \`${settings.prefix}\` and then add any one of the commands below:**\n
         ${utils.createFormattedHelpMessage(commands)}
-
         _i.e. xmb who is online_`;
         createRichEmbedMessage(message, 'Help Command List', msgDescription);
     }
