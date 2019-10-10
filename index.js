@@ -52,7 +52,7 @@ client.on('message', message => {
             **Users Online:** ${value.players}`;
 
             createRichEmbedMessage(message, `Server Status`, msgDescription);
-        });
+        }).catch(catchErrorMessage);
     }
 
     //Server URL
@@ -65,7 +65,7 @@ client.on('message', message => {
             - ${serverValue.ip}`;
 
             createRichEmbedMessage(message, `Server IP`, msgDescription);
-        });
+        }).catch(catchErrorMessage);
     }
 
     //Who is on Command
@@ -77,7 +77,7 @@ client.on('message', message => {
 
             createRichEmbedMessage(message, `Users`, msgDescription);
             setBotStatus(`${players.numbers}`, undefined);
-        });
+        }).catch(catchErrorMessage);
     }
 
     //What Version
@@ -88,7 +88,7 @@ client.on('message', message => {
             **Minecraft Type:** ${versionInfo.software}`;
 
             createRichEmbedMessage(message, `Version`, msgDescription);
-        });
+        }).catch(catchErrorMessage);
     }
 
     //Bot Intro 
@@ -111,7 +111,7 @@ client.on('message', message => {
             let msgDescription = `**Below are a list of plugins currently used on the server:**
             ${pluginList}`;
             createRichEmbedMessage(message, `Plugins`, msgDescription);
-        });
+        }).catch(catchErrorMessage);
     }
 
     //Help Command
@@ -128,11 +128,15 @@ client.on('message', message => {
         ${APP_CONSTANTS.GITHUB_URL}`;
         createRichEmbedMessage(message, 'Additional Help', msgDescription);
     } 
+
+    //An echo command to make the bot say stuff
     else if (command.includes(commands.echo.text)) {
         let echoMessage = command.replace(commands.echo.text, "").trim();
         guildMinecraftChannel.send(echoMessage)
             .catch(catchErrorMessage);
-    }
+    } 
+
+    //General catch-all for unrecognized Commands
     else {
         message.reply(`I'm not quite sure I understand that command, you may have made a typo or that command has not been created yet!`);
     }
@@ -152,7 +156,7 @@ const routinelyCheckServerStatus = function() {
 //Other Reusable Functions Below:
 const determineBotServerStatus = function() {
     router.getServerStatusBackup().then((serverInfo) => {
-        const checkStatus  = serverInfo.online;
+        const checkStatus = serverInfo.online;
         if (serverInfo.online) {
             setBotStatus(`${serverInfo.playersOn} / ${serverInfo.playersMax}`, undefined);
             if (isServerOnline !== checkStatus) {
@@ -166,7 +170,7 @@ const determineBotServerStatus = function() {
                 isServerOnline = false;
             }
         }
-    });
+    }).catch(catchErrorMessage);
 };
 
 const determineServerStatus = function(onlineStatusMessageToSend) {
@@ -188,7 +192,7 @@ const getMinecraftChannel = function() {
     // return client.channels.find(x => x.name == settings.allowed_channel);
 };
 
-const catchErrorMessage = function(errorMessage){
+const catchErrorMessage = function(errorMessage) {
     logMessageToConsole(`Server: ${guildMinecraftChannel.guild.name} | Error: ${errorMessage}`);
 }
 

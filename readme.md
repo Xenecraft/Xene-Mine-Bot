@@ -15,6 +15,9 @@ Refer to the `commands.js` file for more indept descriptions!
 - `users`
 
 ### Version Changelog  
+#### 1.3.0 - 10/9/19 
+- Error handling for if an API call may mess up
+
 #### 1.2.0 - 10/9/19 
 - Notify if the server is offline to your channel of choice, need to get the Channel Id from your Discord server
 
@@ -46,7 +49,6 @@ Refer to the `commands.js` file for more indept descriptions!
 
 ### ToDos For Later:
 - allow multiple channels for messaging bot
-- proper error handling for if the API is offline
 - set a user timeout to prevent message spamming
 - write tests for once
 
@@ -80,7 +82,7 @@ Refer to the `commands.js` file for more indept descriptions!
 
 ### Credits:
 - [Anders](https://twitter.com/spirit55555dk) the creator of mcsrvstat.us
-- [Syfarp](https://twitter.com/Syfaro) for creating MCApi.us
-- Discord people
+- [Syfao](https://twitter.com/Syfaro) for creating MCApi.us
+- Discord people and their nice API
 - People at Writebots for giving a relatively straightforward way to host a Bot in [this article](https://www.writebots.com/discord-bot-hosting/)
 - This [Gist](https://gist.github.com/eslachance/3349734a98d30011bb202f47342601d3) for some simple best practices!

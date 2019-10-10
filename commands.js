@@ -1,19 +1,19 @@
 const APP_COMMANDS = {
-	//TODO: Something with the type name to more smartly give a response.
+    //TODO: Something with the type name to more smartly give a response.
     address: {
-		text: `address`,
+        text: `address`,
         type: `embed`,
         description: `gives the Minecraft Server Address to connect in the client`,
     },
     debug: {
-    	text: `debug`,
+        text: `debug`,
         type: `embed`,
-        description: `gives a link to the source code of Xene-Mine-Bot`,	
+        description: `gives a link to the source code of Xene-Mine-Bot`,
     },
     echo: {
-    	text: `echo`,
-    	type: `reply`,
-    	description: `megaphones a command throughout multiple servers, potentially dangerous`,
+        text: `echo`,
+        type: `reply`,
+        description: `megaphones a command throughout multiple servers, potentially dangerous`,
     },
     help: {
         text: `help`,
@@ -21,9 +21,9 @@ const APP_COMMANDS = {
         description: `what you just used!`,
     },
     intro: {
-    	text: `intro`,
-    	type: `embed`,
-        description: `gives a description of what the bot does`,	
+        text: `intro`,
+        type: `embed`,
+        description: `gives a description of what the bot does`,
     },
     ping: {
         text: `ping`,
@@ -31,14 +31,14 @@ const APP_COMMANDS = {
         description: `a test command`,
     },
     plugin: {
-    	text: `plugins`,
+        text: `plugins`,
         type: `reply`,
-        description: `lists all currently used plugins`,	
+        description: `lists all currently used plugins`,
     },
     site: {
-    	text: `main site`,
+        text: `main site`,
         type: `embed`,
-        description: `gives you the main URL`,	
+        description: `gives you the main URL`,
     },
     status: {
         text: `status`,
@@ -46,14 +46,14 @@ const APP_COMMANDS = {
         description: `gives a General Server status`,
     },
     version: {
-    	text: `version`,
-    	type: `embed`,
-    	description: `gives the version of Minecraft used`,
+        text: `version`,
+        type: `embed`,
+        description: `gives the version of Minecraft used`,
     },
     whois: {
-    	text: `users`,
-    	type: `embed`,
-    	description: `gives a list of who is online`,
+        text: `users`,
+        type: `embed`,
+        description: `gives a list of who is online`,
     }
 };
 
