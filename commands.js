@@ -10,6 +10,11 @@ const APP_COMMANDS = {
         type: `embed`,
         description: `gives a link to the source code of Xene-Mine-Bot`,	
     },
+    echo: {
+    	text: `echo`,
+    	type: `reply`,
+    	description: `megaphones a command throughout multiple servers, potentially dangerous`,
+    },
     help: {
         text: `help`,
         type: `embed`,

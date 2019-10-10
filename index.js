@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const { Client, RichEmbed, Channel } = require('discord.js');
+const { RichEmbed } = require('discord.js');
 // Mandatory File Settings
 const settings = require('./app-settings.json');
 const APP_CONSTANTS = require('./constants.js');
@@ -12,15 +12,15 @@ const logMessageToConsole = utils.logMessageToConsole;
 
 //Global Variable for Server Status
 let isServerOnline = true;
+let guildMinecraftChannel = {};
 
 client.on('ready', () => {
     logMessageToConsole(`Logging in as ${client.user.tag}...`);
     determineBotServerStatus();
     routinelyCheckServerStatus();
-    // setTimeout(()=>{
-    //     const channel = client.channels.get('name', settings.allowed_channel);
-    //     console.log(channel);
-    // }, 1000)
+    guildMinecraftChannel = getMinecraftChannel();
+    const startupMessage = `Hello ${APP_CONSTANTS.SERVER_NAME} Players, I am alive again to do work for you!`;
+    guildMinecraftChannel.send(startupMessage).catch(catchErrorMessage);
 });
 
 client.on('message', message => {
@@ -30,7 +30,6 @@ client.on('message', message => {
 
     // Also good practice to ignore any message that does not start with our prefix, 
     // which is set in the configuration file.
-    // logMessageToConsole(message.isMentioned(client.user));
     if (message.content.indexOf(settings.prefix) !== 0) return;
 
     //Process the Command text
@@ -38,7 +37,6 @@ client.on('message', message => {
     const command = args.toLowerCase();
     let commandLogMessage = `${message.author}: said '${command}'`;
     logMessageToConsole(commandLogMessage);
-
 
     //Ping Command
     if (command === commands.ping.text) {
@@ -129,7 +127,13 @@ client.on('message', message => {
         let msgDescription = `**Refer to the Github URL for additional information or any suggestions:** 
         ${APP_CONSTANTS.GITHUB_URL}`;
         createRichEmbedMessage(message, 'Additional Help', msgDescription);
-    } else {
+    } 
+    else if (command.includes(commands.echo.text)) {
+        let echoMessage = command.replace(commands.echo.text, "").trim();
+        guildMinecraftChannel.send(echoMessage)
+            .catch(catchErrorMessage);
+    }
+    else {
         message.reply(`I'm not quite sure I understand that command, you may have made a typo or that command has not been created yet!`);
     }
 
@@ -149,38 +153,47 @@ const routinelyCheckServerStatus = function() {
 const determineBotServerStatus = function() {
     router.getServerStatusBackup().then((serverInfo) => {
         const checkStatus  = serverInfo.online;
-        if (serverInfo.online){
+        if (serverInfo.online) {
             setBotStatus(`${serverInfo.playersOn} / ${serverInfo.playersMax}`, undefined);
-            // if(isServerOnline !== checkStatus){
-            //     determineServerStatus(checkStatus);
-            //     isServerOnline = true;
-            // }
-        }
-        else{
+            if (isServerOnline !== checkStatus) {
+                determineServerStatus(checkStatus);
+                isServerOnline = true;
+            }
+        } else {
             setBotStatus(`Offline`, undefined);
-            // if(isServerOnline !== checkStatus){
-            //     determineServerStatus(checkStatus);
-            //     isServerOnline = false;
-            // }
+            if (isServerOnline !== checkStatus) {
+                determineServerStatus(checkStatus);
+                isServerOnline = false;
+            }
         }
     });
 };
 
 const determineServerStatus = function(onlineStatusMessageToSend) {
     const channel = client.channels.get('name', settings.allowed_channel);
-    if(onlineStatusMessageToSend){
-        const onlineMessage = `Server is back up. All lights are green.`;    
-        channel.send(onlineMessage); 
-    }else{
+    if (onlineStatusMessageToSend) {
+        const onlineMessage = `Server is back up. All lights are green.`;
+        guildMinecraftChannel.send(onlineMessage)
+            .catch(catchErrorMessage);
+    } else {
         const offlineMessage = `Server is offline. Either a restart or a maintenance?`;
-        channel.send(offlineMessage)
+        guildMinecraftChannel.send(offlineMessage)
+            .catch(catchErrorMessage);
     }
-    
-    
 };
 
+const getMinecraftChannel = function() {
+    return client.channels.get(settings.broadcast_channel_id);
+    //Below is not always reliable if connected to multiple servers:
+    // return client.channels.find(x => x.name == settings.allowed_channel);
+};
+
+const catchErrorMessage = function(errorMessage){
+    logMessageToConsole(`Server: ${guildMinecraftChannel.guild.name} | Error: ${errorMessage}`);
+}
+
 const setBotStatus = function(activityBase, activityType = `WATCHING`) {
-    client.user.setActivity(`Xenecraft: ${activityBase}`, { type: activityType });
+    return client.user.setActivity(`Xenecraft: ${activityBase}`, { type: activityType });
 };
 
 const createRichEmbedMessage = function(msg, msgTitle, msgDescription) {

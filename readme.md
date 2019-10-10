@@ -15,12 +15,17 @@ Refer to the `commands.js` file for more indept descriptions!
 - `users`
 
 ### Version Changelog  
+#### 1.2.0 - 10/9/19 
+- Notify if the server is offline to your channel of choice, need to get the Channel Id from your Discord server
+
 #### 1.1.0 - 10/4/19 
 - Touching up various commands
 - Readme updated for bot setup at bottom
 - Changed `who is online` into `users`
 - Changed `server status` into `status`
 - Line breaks being stupid between Unix and Windows.
+- Use `users` command to update User count of server users to Bot status
+- More documentation for help command and a description for values
 
 #### 1.0.0 - 9/29/19 
 - Lots of commands to use now!
@@ -41,11 +46,8 @@ Refer to the `commands.js` file for more indept descriptions!
 
 ### ToDos For Later:
 - allow multiple channels for messaging bot
-- notify if the server is offline
 - proper error handling for if the API is offline
-- more documentation for help command and a description for values
 - set a user timeout to prevent message spamming
-- use online number to update count if there are people and command is used
 - write tests for once
 
 ### How to use the Bot for Yourself
@@ -56,6 +58,7 @@ Refer to the `commands.js` file for more indept descriptions!
 		"allowed_channel": "xenecraft-⛏",
 		"bot_reponse_color": "<yourColorHere>",
 		"bot_token": "<yourDiscordToken>",
+		"broadcast_channel_id": "<channelYouWantOnlineOfflineMessagesToBeSentTo>",
 		"prefix": "<yourPrefixHere>"
 	}
 	```
@@ -73,7 +76,7 @@ Refer to the `commands.js` file for more indept descriptions!
 	};
 	module.exports = APP_CONSTANTS;
 	```
-- `npm run index.js` or `nodemon index`
+- `npm run index.js` or `nodemon index` locally or in your instance
 
 ### Credits:
 - [Anders](https://twitter.com/spirit55555dk) the creator of mcsrvstat.us
