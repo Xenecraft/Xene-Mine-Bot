@@ -10,7 +10,8 @@ const router = require('./router.js');
 const utils = require('./utils.js');
 const logMessageToConsole = utils.logMessageToConsole;
 
-//Global Variable for Server Status
+// Global Variable for Server Status
+// Assume that Server is Online when Bot turns on.
 let isServerOnline = true;
 let guildMinecraftChannel = {};
 
@@ -19,7 +20,7 @@ client.on('ready', () => {
     determineBotServerStatus();
     routinelyCheckServerStatus();
     guildMinecraftChannel = getMinecraftChannel();
-    const startupMessage = `Hello ${APP_CONSTANTS.SERVER_NAME} Players, I am alive again to do work for you!`;
+    const startupMessage = `Connection restored. Monitoring the ${APP_CONSTANTS.SERVER_NAME} Server.`;
     guildMinecraftChannel.send(startupMessage).catch(catchErrorMessage);
 });
 
@@ -175,21 +176,19 @@ const determineBotServerStatus = function() {
 
 const determineServerStatus = function(onlineStatusMessageToSend) {
     const channel = client.channels.get('name', settings.allowed_channel);
-    if (onlineStatusMessageToSend) {
-        const onlineMessage = `Server is back up. All lights are green.`;
-        guildMinecraftChannel.send(onlineMessage)
-            .catch(catchErrorMessage);
-    } else {
-        const offlineMessage = `Server is offline. Either a restart or a maintenance?`;
-        guildMinecraftChannel.send(offlineMessage)
-            .catch(catchErrorMessage);
-    }
+    let currentStatus = "";
+
+    if (onlineStatusMessageToSend)
+        currentStatus = `Online.`;
+    else
+        currentStatus = `Offline.`;
+
+    let serverStatusMessage = `Server ${currentStatus} ${utils.determineServerStatusEmoji(value.online)}`;
+    guildMinecraftChannel.send(serverStatusMessage).catch(catchErrorMessage);
 };
 
 const getMinecraftChannel = function() {
     return client.channels.get(settings.broadcast_channel_id);
-    //Below is not always reliable if connected to multiple servers:
-    // return client.channels.find(x => x.name == settings.allowed_channel);
 };
 
 const catchErrorMessage = function(errorMessage) {

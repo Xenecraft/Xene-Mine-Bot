@@ -15,6 +15,9 @@ Refer to the `commands.js` file for more indept descriptions!
 - `users`
 
 ### Version Changelog  
+#### 1.3.1 - 12/19/19 
+- Refactored online/offline messages for bot.
+
 #### 1.3.0 - 10/9/19 
 - Error handling for if an API call may mess up
 
