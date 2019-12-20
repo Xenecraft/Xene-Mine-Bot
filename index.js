@@ -174,16 +174,16 @@ const determineBotServerStatus = function() {
     }).catch(catchErrorMessage);
 };
 
-const determineServerStatus = function(onlineStatusMessageToSend) {
+const determineServerStatus = function(booleanStatusMessageToSend) {
     const channel = client.channels.get('name', settings.allowed_channel);
     let currentStatus = "";
 
-    if (onlineStatusMessageToSend)
+    if (booleanStatusMessageToSend)
         currentStatus = `Online.`;
     else
         currentStatus = `Offline.`;
 
-    let serverStatusMessage = `Server ${currentStatus} ${utils.determineServerStatusEmoji(value.online)}`;
+    let serverStatusMessage = `Server ${currentStatus} ${utils.determineServerStatusEmoji(booleanStatusMessageToSend)}`;
     guildMinecraftChannel.send(serverStatusMessage).catch(catchErrorMessage);
 };
 
