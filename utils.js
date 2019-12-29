@@ -17,6 +17,13 @@ const determineServerStatusEmoji = function(serverBoolean) {
         return `\:broken_heart:`;
 };
 
+const determineStatusFormatter = function(isUndefined){
+    if(isUndefined == undefined)
+        return 'Cannot Be Determined';
+    else
+        return isUndefined;
+}
+
 const linkArrayWithFormatting = function(array) {
     let formattedMessage = ``;
     if (array.length === 1) {
@@ -29,6 +36,11 @@ const linkArrayWithFormatting = function(array) {
     return formattedMessage;
 }
 
+const logErrorToConsole = function(message) {
+    let timeNow = moment().format('YYYY.MM.DD - HH:mm:ss');
+    console.error(`[${timeNow}] ${message}`);
+}
+
 const logMessageToConsole = function(message) {
     let timeNow = moment().format('YYYY.MM.DD - HH:mm:ss');
     console.log(`[${timeNow}] ${message}`);
@@ -37,6 +49,8 @@ const logMessageToConsole = function(message) {
 module.exports = {
     createFormattedHelpMessage,
     determineServerStatusEmoji,
+    determineStatusFormatter,
     linkArrayWithFormatting,
+    logErrorToConsole,
     logMessageToConsole,
 }

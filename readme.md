@@ -15,6 +15,14 @@ Refer to the `commands.js` file for more indept descriptions!
 - `users`
 
 ### Version Changelog  
+#### 1.5.0 - 12/28/19 
+- More refactoring of online/offline messages for bot.
+- Check with both APIs for Offline/Online Server status so no false positives in Discord messages.
+- Unify User Online/Number check on router methods (to output the same expected object keys)
+- Slightly better error handling for some areas
+-
+- I should really write some tests so I can pull some offline/online toggling without hitting the APIs.
+
 #### 1.3.1 - 12/19/19 
 - Refactored online/offline messages for bot.
 
@@ -75,7 +83,7 @@ Refer to the `commands.js` file for more indept descriptions!
 		GITHUB_URL: `https://github.com/Xenecraft/Xene-Mine-Bot`,
 		REFRESH_INTERVAL: 600000, //10 minutes
 		SERVER_NAME: `Xenecraft`,
-		SERVER_PORT: `25985`,
+		SERVER_PORT: `25565`,
 		SERVER_URL: `play.xenecraft.com`,
 		SITE_URL: `http://xenecraft.com`,
 	};
