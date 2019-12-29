@@ -119,7 +119,7 @@ client.on('message', message => {
 
   //Plugin With Versions Used
   else if (command === commands.plugver.text) {
-    router.getServerPlugins().then((pluginList) => {
+    router.getServerPluginsVersions().then((pluginList) => {
       let msgDescription = `**Below are a list of plugins currently used on the server:**
             ${pluginList}`;
       createRichEmbedMessage(message, `Plugins`, msgDescription).catch(catchErrorMessage);
