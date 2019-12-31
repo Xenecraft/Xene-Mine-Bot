@@ -99,7 +99,7 @@ client.on('message', message => {
     let msgDescription = `
         Hi ${message.author}, I am a bot to help with administrating a Minecraft server! Try typing \`${settings.prefix}\` in combinations with other commands to see my other functionality! For example, typing \`${settings.prefix} help\` to see my list of commands.
 
-        Please note that I am only allowed to run in the \`${settings.allowed_channel}\` channel so send your commands there!`;
+        Please note that I am only allowed to run in the \`${settings.allowed_channel}\` channel so send your commands there. Also I am limited via API requests to two specific providers, though you can send multiple messages, the data may still be cached by minutes so forgive any incorrect player counts showing on my radar!`;
     createRichEmbedMessage(message, `Intro`, msgDescription);
   }
 
@@ -166,6 +166,7 @@ const routinelyCheckServerStatus = function() {
 
 //Other Reusable Functions Below:
 const determineBotServerStatus = async function(isBotCommandCall = false) {
+  // Why this? Because we occasionally get 500 errors and I would prefer to double check both API's to validate that the server is down.
   let serverAPIOneInfo = await router.getServerStatus().catch(`api1: ${catchErrorMessage}`);
   let serverAPITwoInfo = await router.getServerStatusBackup().catch(`api2: ${catchErrorMessage}`);
 
@@ -222,7 +223,6 @@ const createRichEmbedMessage = function(msg, msgTitle, msgDescription) {
     // Set the main content of the embed
     .setDescription(msgDescription);
   // Send the embed to the same channel as the message
-  //try and see if can await
   setTimeout(() => { msg.channel.send(embed) }, 250);
 };
 

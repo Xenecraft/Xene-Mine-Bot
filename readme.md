@@ -9,18 +9,22 @@ Refer to the `commands.js` file for more indept descriptions!
 - `intro`
 - `ping`
 - `plugins`
+- `plugins-versions`
 - `main site`
 - `status`
 - `version`
 - `users`
 
 ### Version Changelog  
+#### 1.5.1/1.5.2 - 12/28/19 
+- Whoopsied on the `plugins-versions` command not pulling version number
+- Bullet point on readme, lol
+
 #### 1.5.0 - 12/28/19 
 - More refactoring of online/offline messages for bot.
 - Check with both APIs for Offline/Online Server status so no false positives in Discord messages.
 - Unify User Online/Number check on router methods (to output the same expected object keys)
 - Slightly better error handling for some areas
--
 - I should really write some tests so I can pull some offline/online toggling without hitting the APIs.
 
 #### 1.3.1 - 12/19/19 
@@ -59,7 +63,7 @@ Refer to the `commands.js` file for more indept descriptions!
 - xb command isolation with `app-settings.json` file
 
 ### ToDos For Later:
-- allow multiple channels for messaging bot
+- ~~allow multiple channels for messaging bot~~
 - set a user timeout to prevent message spamming
 - write tests for once
 
@@ -81,9 +85,9 @@ Refer to the `commands.js` file for more indept descriptions!
 		API_URL: `https://api.mcsrvstat.us/2/`,
 		API_FALLBACK_URL: `https://mcapi.us/server/status?ip=`,
 		GITHUB_URL: `https://github.com/Xenecraft/Xene-Mine-Bot`,
-		REFRESH_INTERVAL: 600000, //10 minutes
+		REFRESH_INTERVAL: 600000, //10 minutes, be careful as you don't want to get blocked for spamming the API
 		SERVER_NAME: `Xenecraft`,
-		SERVER_PORT: `25565`,
+		SERVER_PORT: `25565`, //You may not need to use this if you have a standard MC port like 25565
 		SERVER_URL: `play.xenecraft.com`,
 		SITE_URL: `http://xenecraft.com`,
 	};
