@@ -16,7 +16,7 @@ Refer to the `commands.js` file for more indept descriptions!
 - `users`
 
 ### Version Changelog  
-#### 1.5.1/1.5.2 - 12/28/19 
+#### 1.5.1/1.5.2 - 12/29/19 
 - Whoopsied on the `plugins-versions` command not pulling version number
 - Bullet point on readme, lol
 
